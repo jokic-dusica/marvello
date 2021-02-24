@@ -18,7 +18,7 @@ namespace Marvello.Repository
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile( @"C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello\appsettings.json").Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile( @Directory.GetCurrentDirectory() + "/../Marvello.WebApi/appsettings.json").Build();
             var connectionString = configuration.GetConnectionString("DefaultMySqlConnection");
             optionsBuilder.UseMySql(connectionString);
         }
