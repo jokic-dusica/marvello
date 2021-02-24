@@ -14,13 +14,13 @@ namespace Marvello.Data.Entities
         public string Password { get; set; }
         public string PhotoUrl { get; set; }
         public int UserType { get; set; }
-        public virtual List<Project> Projects { get; set; }
+        public virtual List<ProjectUser> ProjectUsers { get; set; }
         public virtual List<Task> Tasks { get; set; }
         public virtual List<Comment> Comments { get; set; }
 
         public User()
         {
-            Projects = new List<Project>();
+            ProjectUsers = new List<ProjectUser>();
             Tasks = new List<Task>();
             Comments = new List<Comment>();
         }

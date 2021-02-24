@@ -4,14 +4,14 @@
     "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj": {
+    "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\Marvello.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj",
-        "projectName": "Marvello.WebApi",
-        "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\Marvello.Data.csproj",
+        "projectName": "Marvello.Data",
+        "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\Marvello.Data.csproj",
         "packagesPath": "C:\\Users\\Dusica\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\obj\\",
+        "outputPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dusica\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,186 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\Marvello.Repository.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\Marvello.Repository.csproj",
+        "projectName": "Marvello.Repository",
+        "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\Marvello.Repository.csproj",
+        "packagesPath": "C:\\Users\\Dusica\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Dusica\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\Marvello.Data.csproj": {
+                "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Data\\Marvello.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "MySql.Data.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[3.2.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj",
+        "projectName": "Marvello.WebApi",
+        "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\Marvello.WebApi.csproj",
+        "packagesPath": "C:\\Users\\Dusica\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Dusica\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\Marvello.Repository.csproj": {
+                "projectPath": "C:\\Users\\Dusica\\marvello\\marvello-ws\\Marvello\\Marvello.Repository\\Marvello.Repository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.23, )"
+            },
+            "MySql.Data.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[3.2.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

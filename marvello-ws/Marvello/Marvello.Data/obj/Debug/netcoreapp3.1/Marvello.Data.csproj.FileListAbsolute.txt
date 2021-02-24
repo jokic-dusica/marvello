@@ -1,0 +1,9 @@
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\bin\Debug\netcoreapp3.1\Marvello.Data.deps.json
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\bin\Debug\netcoreapp3.1\Marvello.Data.dll
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\bin\Debug\netcoreapp3.1\Marvello.Data.pdb
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.csprojAssemblyReference.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.AssemblyInfoInputs.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.AssemblyInfo.cs
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.csproj.CoreCompileInputs.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.dll
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Data\obj\Debug\netcoreapp3.1\Marvello.Data.pdb

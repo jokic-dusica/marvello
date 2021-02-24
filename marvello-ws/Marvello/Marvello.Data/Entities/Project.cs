@@ -11,7 +11,7 @@ namespace Marvello.Data.Entities
         public int Visibility { get; set; }
         public int TypeId { get; set; }
         public virtual ProjectType Type { get; set; }
-        public virtual List<User> Users { get; set; }
+        public virtual List<ProjectUser> ProjectUsers { get; set; }
         public virtual List<Task> Tasks { get; set; }
         public string Url { get; set; }
         public string Description { get; set; }
@@ -20,7 +20,7 @@ namespace Marvello.Data.Entities
 
         public Project()
         {
-            Users = new List<User>(); /*Kreiranje prazne Liste objekata user*/
+            ProjectUsers = new List<ProjectUser>(); /*Kreiranje prazne Liste objekata user*/
             Tasks = new List<Task>();
         }
  

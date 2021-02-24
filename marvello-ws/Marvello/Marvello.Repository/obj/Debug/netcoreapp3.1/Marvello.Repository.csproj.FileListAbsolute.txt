@@ -1,0 +1,15 @@
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Repository.deps.json
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Repository.runtimeconfig.json
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Repository.runtimeconfig.dev.json
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Repository.dll
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Repository.pdb
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Data.dll
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\bin\Debug\netcoreapp3.1\Marvello.Data.pdb
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.csprojAssemblyReference.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.AssemblyInfoInputs.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.AssemblyInfo.cs
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.csproj.CoreCompileInputs.cache
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.csproj.CopyComplete
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.dll
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.pdb
+C:\Users\Dusica\marvello\marvello-ws\Marvello\Marvello.Repository\obj\Debug\netcoreapp3.1\Marvello.Repository.genruntimeconfig.cache
