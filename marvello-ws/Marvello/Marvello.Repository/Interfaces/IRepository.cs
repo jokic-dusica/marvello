@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Marvello.Repository.Interfaces
@@ -13,5 +14,8 @@ namespace Marvello.Repository.Interfaces
         Task Save(T entity);
         Task Update(T entity);
         Task Delete(T entity);
+
+        Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate);
     }
 }

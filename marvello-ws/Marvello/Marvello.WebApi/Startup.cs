@@ -31,9 +31,15 @@ namespace Marvello
             );
             services.AddControllers();
            
-            
+            //Repositories
             services.AddScoped<MarvelloDBContext>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectTypeRepository, ProjectTypeRepository>();
+            services.AddScoped<IProjectUserRepository, ProjectUserRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
         }
 
