@@ -1,5 +1,6 @@
 ﻿using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace Marvello.Repository.Repositories
         {
             return await FirstOrDefault(user => user.Username == username);
         }
+
     }
 }

@@ -9,8 +9,7 @@ namespace Marvello.Data.Entities
         public string Name { get; set; }
         public virtual List<Project> Projects { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
-
+        public DateTime? ModifiedOn { get; set; }
         public ProjectType()
         {
             Projects = new List<Project>();

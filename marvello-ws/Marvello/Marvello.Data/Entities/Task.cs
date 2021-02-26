@@ -15,7 +15,7 @@ namespace Marvello.Data.Entities
         public decimal TimeRemaining { get; set; }
         public decimal TimeSpent { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         public int StoryPoint { get; set; }       
         public long ProjectId { get; set; }
         public virtual Project Project { get; set; }

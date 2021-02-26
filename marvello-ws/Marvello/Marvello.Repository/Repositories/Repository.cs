@@ -15,6 +15,7 @@ namespace Marvello.Repository.Repositories
 
         public Repository(MarvelloDBContext context)
         {
+        
             _dbContext = context;
         }
 

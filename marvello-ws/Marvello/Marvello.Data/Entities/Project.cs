@@ -16,7 +16,7 @@ namespace Marvello.Data.Entities
         public string Url { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
         public Project()
         {
