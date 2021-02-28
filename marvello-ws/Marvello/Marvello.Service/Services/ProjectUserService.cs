@@ -1,5 +1,7 @@
-﻿using Marvello.Data.Entities;
+﻿using AutoMapper;
+using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
+using Marvello.Service.DTOs;
 using Marvello.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,37 +13,50 @@ namespace Marvello.Service.Services
     public class ProjectUserService : IProjectUserService
     {
         private readonly IProjectUserRepository _projectUserRepository;
-        public ProjectUserService(IProjectUserRepository projectUserRepository)
+        private readonly IMapper _mapper;
+        public ProjectUserService(IProjectUserRepository projectUserRepository, IMapper mapper)
         {
             _projectUserRepository = projectUserRepository;
+            _mapper = mapper;
         }
     
-        public async Task<List<ProjectUser>> GetAll()
+        public async Task<List<ProjectUserDTO>> GetAll()
         {
-            return (List<ProjectUser>)await _projectUserRepository.GetAll();
+            var listProjectUser = await _projectUserRepository.GetAll();
+            var listDTOs = _mapper.Map<List<ProjectUserDTO>>(listProjectUser);
+            return listDTOs;
         }
 
-        public async Task<ProjectUser> GetOne(int id)
+        public async Task<ProjectUserDTO> GetOne(int id)
         {
-            return await _projectUserRepository.GetOne(id);
+            var oneProjectUser = await _projectUserRepository.GetOne(id);
+            var DTOs = _mapper.Map<ProjectUserDTO>(oneProjectUser);
+            return DTOs;
         }
 
-        public async Task<ProjectUser> Save(ProjectUser entity)
+        public async Task<ProjectUserDTO> Save(ProjectUserDTO entity)
         {
-            entity.CreatedOn = DateTime.UtcNow;
-            await _projectUserRepository.Save(entity);
+            var projectUser = _mapper.Map<ProjectUser>(entity);
+            projectUser.CreatedOn = DateTime.UtcNow;
+            await _projectUserRepository.Save(projectUser);
+
+            entity = _mapper.Map<ProjectUserDTO>(projectUser);
             return entity;
         }
 
-        public async Task<ProjectUser> Update(ProjectUser entity)
+        public async Task<ProjectUserDTO> Update(ProjectUserDTO entity)
         {
-            entity.ModifiedOn = DateTime.UtcNow;
-            await _projectUserRepository.Update(entity);
+            var updateUser = _mapper.Map<ProjectUser>(entity);
+            updateUser.ModifiedOn = DateTime.UtcNow;
+            await _projectUserRepository.Update(updateUser);
+
+            entity = _mapper.Map<ProjectUserDTO>(updateUser);
             return entity;
         }
-        public async System.Threading.Tasks.Task Delete(ProjectUser entity)
+        public async System.Threading.Tasks.Task Delete(ProjectUserDTO entity)
         {
-            await _projectUserRepository.Delete(entity);
+            var deleteUser = _mapper.Map<ProjectUser>(entity);
+            await _projectUserRepository.Delete(deleteUser);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Marvello.Data.Entities;
+using Marvello.Service.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +9,10 @@ namespace Marvello.Service.Interfaces
 {
     public interface ICommentService
     {
-        Task<List<Comment>> GetAll();
-        Task<Comment> GetOne(int id);
-        Task<Comment> Save(Comment entity);
-        Task<Comment> Update(Comment entity);
-        System.Threading.Tasks.Task Delete(Comment entity);
+        Task<List<CommentDTO>> GetAll();
+        Task<CommentDTO> GetOne(int id);
+        Task<CommentDTO> Save(CommentDTO entity);
+        Task<CommentDTO> Update(CommentDTO entity);
+        System.Threading.Tasks.Task Delete(CommentDTO entity);
     }
 }

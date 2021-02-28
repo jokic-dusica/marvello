@@ -1,5 +1,7 @@
-﻿using Marvello.Data.Entities;
+﻿using AutoMapper;
+using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
+using Marvello.Service.DTOs;
 using Marvello.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,39 +13,51 @@ namespace Marvello.Service.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository _commentRepository;
-        public CommentService(ICommentRepository commentRepository)
+        private readonly IMapper _mapper;
+        public CommentService(ICommentRepository commentRepository, IMapper mapper)
         {
             _commentRepository = commentRepository;
+
+            _mapper = mapper;
         }
 
 
-        public async Task<List<Comment>> GetAll()
+        public async Task<List<CommentDTO>> GetAll()
         {
-            return (List<Comment>)await _commentRepository.GetAll();
+            var commentList = await _commentRepository.GetAll();
+            var commentListDTO = _mapper.Map<List<CommentDTO>>(commentList);
+            return commentListDTO;
         }
 
-        public async Task<Comment> GetOne(int id)
+        public async Task<CommentDTO> GetOne(int id)
         {
-            return await _commentRepository.GetOne(id);
+            var oneComment = await _commentRepository.GetOne(id);
+            var oneCommentDTO = _mapper.Map<CommentDTO>(oneComment);
+            return oneCommentDTO;
         }
 
-        public async Task<Comment> Save(Comment entity)
+        public async Task<CommentDTO> Save(CommentDTO entity)
         {
-            entity.CreatedOn = DateTime.UtcNow;
-             await _commentRepository.Save(entity);
+            var commentEntity = _mapper.Map<Comment>(entity);
+            commentEntity.CreatedOn = DateTime.UtcNow;
+            await _commentRepository.Save(commentEntity);
+            entity = _mapper.Map<CommentDTO>(commentEntity);
             return entity;
         }
 
-        public async Task<Comment> Update(Comment entity)
+        public async Task<CommentDTO> Update(CommentDTO entity)
         {
-            entity.ModifiedOn = DateTime.UtcNow;
-            await _commentRepository.Update(entity);
+            var updateCommentEntity = _mapper.Map<Comment>(entity);
+            updateCommentEntity.ModifiedOn = DateTime.UtcNow;
+            await _commentRepository.Update(updateCommentEntity);
+            entity = _mapper.Map<CommentDTO>(updateCommentEntity);
             return entity;
 
         }
-        public async System.Threading.Tasks.Task Delete(Comment entity)
+        public async System.Threading.Tasks.Task Delete(CommentDTO entity)
         {
-            await _commentRepository.Delete(entity);
+            var deleteCommentEntity = _mapper.Map<Comment>(entity);
+            await _commentRepository.Delete(deleteCommentEntity);
         }
     }
 }

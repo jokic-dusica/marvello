@@ -40,6 +40,7 @@ namespace Marvello
             services.AddScoped<IProjectUserRepository, ProjectUserRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof (Startup));
 
         }
 

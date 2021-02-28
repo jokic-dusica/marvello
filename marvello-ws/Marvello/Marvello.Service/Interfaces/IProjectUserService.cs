@@ -1,4 +1,5 @@
 ﻿using Marvello.Data.Entities;
+using Marvello.Service.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +9,10 @@ namespace Marvello.Service.Interfaces
 {
     public interface IProjectUserService
     {
-        Task<List<ProjectUser>> GetAll();
-        Task<ProjectUser> GetOne(int id);
-        Task<ProjectUser> Save(ProjectUser entity);
-        Task<ProjectUser> Update(ProjectUser entity);
-        System.Threading.Tasks.Task Delete(ProjectUser entity);
+        Task<List<ProjectUserDTO>> GetAll();
+        Task<ProjectUserDTO> GetOne(int id);
+        Task<ProjectUserDTO> Save(ProjectUserDTO entity);
+        Task<ProjectUserDTO> Update(ProjectUserDTO entity);
+        System.Threading.Tasks.Task Delete(ProjectUserDTO entity);
     }
 }
