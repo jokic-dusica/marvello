@@ -6,6 +6,7 @@ namespace Marvello.Service.DTOs
 {
     public class ProjectUserDTO
     {
+        public long Id { get; set; }
         public long ProjectId { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; }

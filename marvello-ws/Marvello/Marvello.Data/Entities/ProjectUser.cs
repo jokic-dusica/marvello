@@ -5,7 +5,8 @@ using System.Text;
 namespace Marvello.Data.Entities
 {
     public class ProjectUser
-    {
+    {      
+        public long Id { get; set; }
         public long ProjectId { get; set; }
         public virtual Project Project { get; set; }
         public DateTime? ModifiedOn { get; set; }
