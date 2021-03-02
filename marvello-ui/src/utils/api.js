@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React from 'react';
 
-const defaultUrl = "localhost:8080";
+axios.defaults.withCredentials = true;
 export const api =  (url, method, data = null) => 
     new Promise((resolve, reject) => {
         axios({
-            url: `${defaultUrl}${url}`,
+            url: `${url}`,
             method: method,
             data: data,
-            params: data
+            params: data,
         }).then(
             response => {
                 resolve(response.data);
