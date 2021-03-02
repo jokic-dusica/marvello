@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Marvello.WebApi.Controllers
 {
-    [Route("api/projecttypes")]
+    [Route("api/projectTypes")]
     [ApiController]
     public class ProjectTypeController : ControllerBase
     {

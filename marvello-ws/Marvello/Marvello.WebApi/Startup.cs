@@ -1,6 +1,8 @@
 using Marvello.Repository;
 using Marvello.Repository.Interfaces;
 using Marvello.Repository.Repositories;
+using Marvello.Service.Interfaces;
+using Marvello.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,6 +21,7 @@ namespace Marvello
             Configuration = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -29,6 +32,18 @@ namespace Marvello
                     o => o.MigrationsAssembly("Marvello.Repository")
                 )
             );
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:3000")
+                                      .AllowAnyOrigin()
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                                  });
+            });
+
             services.AddControllers();
            
             //Repositories
@@ -40,6 +55,14 @@ namespace Marvello
             services.AddScoped<IProjectUserRepository, ProjectUserRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //Services
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectTypeService, ProjectTypeService>();
+            services.AddScoped<IProjectUserService, ProjectUserService>();
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper(typeof (Startup));
 
         }
@@ -55,6 +78,8 @@ namespace Marvello
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
+
 
             app.UseAuthorization();
 
