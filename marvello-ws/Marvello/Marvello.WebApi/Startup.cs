@@ -16,12 +16,12 @@ namespace Marvello
 {
     public class Startup
     {
+        public readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -78,6 +78,7 @@ namespace Marvello
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
             app.UseCors(MyAllowSpecificOrigins);
 
 

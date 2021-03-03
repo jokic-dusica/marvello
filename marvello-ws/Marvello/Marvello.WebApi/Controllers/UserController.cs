@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listUsers);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetOneUser(long id)
         {   
             var oneUser = await _userService.GetOne(id);
@@ -47,7 +47,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/users" + saveUser.Id, saveUser);
         }
 
-        [HttpPut]
+        [HttpPut ("{id}")]
         public async Task<IActionResult> UpdateUser([FromBody] UserDTO entity, long id)
         {
             if (entity == null || id == 0)

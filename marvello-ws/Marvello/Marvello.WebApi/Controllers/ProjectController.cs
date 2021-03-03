@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listProject);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProject(long id)
         {
             var oneProject = await _projectService.GetOne(id);
@@ -48,7 +48,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/projects/" + saveProject.Id, saveProject);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProject([FromBody] ProjectDTO entity, long id)
         {
             if (entity == null || id == 0)

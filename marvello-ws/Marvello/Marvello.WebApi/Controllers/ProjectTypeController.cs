@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listProjectType);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProjectType(int id)
         {
             var oneProjectType = await _projectTypeService.GetOne(id);
@@ -48,7 +48,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/projecttypes/" + saveProjectType.Id, saveProjectType);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProjectType([FromBody] ProjectTypeDTO entity, int id)
         {
             if(entity == null || id == 0)

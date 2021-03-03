@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listProjectUser);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProjectUser(int id)
         {
             var oneProjectUser = await _projectUserService.GetOne(id);
@@ -47,7 +47,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/projectusers/" + saveProjectUser.Id, saveProjectUser);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProjectUser([FromBody] ProjectUserDTO entity, int id)
         {
             if(entity == null || id == 0)

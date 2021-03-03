@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listComment);            
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var oneComment = await _commentService.GetOne(id);
@@ -48,7 +48,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/comments/" + saveComment.Id, saveComment);
         }  
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateComment([FromBody] CommentDTO entity, int id)
         {
             if(entity == null || id == 0)

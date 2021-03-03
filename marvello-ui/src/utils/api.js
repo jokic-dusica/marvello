@@ -2,19 +2,22 @@ import axios from 'axios';
 import React from 'react';
 
 const defaultUrl = "localhost:8080";
-export const api =  (url, method, data = null) => 
-    new Promise((resolve, reject) => {
-        axios({
-            url: `${defaultUrl}${url}`,
+export const apiCall =  async (url, method, data = null) => {
+    try {
+        var response = await axios({
+            url: url,
             method: method,
-            data: data,
-            params: data
-        }).then(
-            response => {
-                resolve(response.data);
-            },
-            error => {
-                reject(error.response.data.error);
-            }
-        )
-    })
+            params: data,
+            data: data
+        })
+    return {
+        isSuccess: true,
+        data: response.data
+    }
+    } catch (error) {
+        return {
+            isSuccess: false,
+            message: error
+        }
+    }
+}

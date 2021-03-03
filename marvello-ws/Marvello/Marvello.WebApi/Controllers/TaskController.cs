@@ -26,7 +26,7 @@ namespace Marvello.WebApi.Controllers
             return Ok(listTasks);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTaskById(long id)
         {
             var oneTask = await _taskService.GetOne(id);
@@ -48,7 +48,7 @@ namespace Marvello.WebApi.Controllers
             return Created("localhost:8080/api/tasks/" + saveTask.Id, saveTask);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTask([FromBody] TaskDTO entity, long id)
         {
             if(entity == null  || id == 0)
