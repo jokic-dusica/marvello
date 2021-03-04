@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,19 +24,22 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var listComment = await _commentService.GetAll();
-            return Ok(listComment);            
+            var response = await _commentService.GetAll();
+            return Ok(response);            
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var oneComment = await _commentService.GetOne(id);
-            if(oneComment == null)
+            var response = await _commentService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneComment);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -42,10 +47,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveComment = await _commentService.Save(entity);
-            return Created("localhost:8080/api/comments/" + saveComment.Id, saveComment);
+            var response = await _commentService.Save(entity);
+            return Created("localhost:8080/api/comments/" + response.ResponseData?.Id, response);
         }  
 
         [HttpPut("{id}")]
@@ -53,10 +61,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<CommentDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateComment = await _commentService.Update(entity);
-            return Ok(updateComment);
+            var response = await _commentService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -64,10 +75,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<CommentDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _commentService.Delete(entity);
-            return Ok();
+            var response = await _commentService.Delete(entity);
+            return Ok(response);
         }
     }
 }

@@ -2,7 +2,9 @@
 using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
 using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,42 +24,130 @@ namespace Marvello.Service.Services
         }
 
 
-        public async Task<List<CommentDTO>> GetAll()
+        public async Task<ResponseWrapper<List<CommentDTO>>> GetAll()
         {
-            var commentList = await _commentRepository.GetAll();
-            var commentListDTO = _mapper.Map<List<CommentDTO>>(commentList);
-            return commentListDTO;
+         try
+            {
+                var commentList = await _commentRepository.GetAll();
+                var commentListDTO = _mapper.Map<List<CommentDTO>>(commentList);
+                var response = new ResponseWrapper<List<CommentDTO>>()
+                {
+                    ResponseData = commentListDTO,
+                    IsSuccess = true
+
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<List<CommentDTO>>() {
+
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
         }
 
-        public async Task<CommentDTO> GetOne(int id)
+        public async Task<ResponseWrapper<CommentDTO>> GetOne(int id)
         {
-            var oneComment = await _commentRepository.GetOne(id);
-            var oneCommentDTO = _mapper.Map<CommentDTO>(oneComment);
-            return oneCommentDTO;
+            try
+            {
+                var oneComment = await _commentRepository.GetOne(id);
+                var oneCommentDTO = _mapper.Map<CommentDTO>(oneComment);
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ResponseData = oneCommentDTO,
+                    IsSuccess = true
+                };
+                return response;
+            }
+           
+            catch
+            {
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }           
         }
 
-        public async Task<CommentDTO> Save(CommentDTO entity)
+        public async Task<ResponseWrapper<CommentDTO>> Save(CommentDTO entity)
         {
-            var commentEntity = _mapper.Map<Comment>(entity);
-            commentEntity.CreatedOn = DateTime.UtcNow;
-            await _commentRepository.Save(commentEntity);
-            entity = _mapper.Map<CommentDTO>(commentEntity);
-            return entity;
+            try
+            {
+                var commentEntity = _mapper.Map<Comment>(entity);
+                commentEntity.CreatedOn = DateTime.UtcNow;
+                await _commentRepository.Save(commentEntity);
+                entity = _mapper.Map<CommentDTO>(commentEntity);
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }         
         }
 
-        public async Task<CommentDTO> Update(CommentDTO entity)
+        public async Task<ResponseWrapper<CommentDTO>> Update(CommentDTO entity)
         {
-            var updateCommentEntity = _mapper.Map<Comment>(entity);
-            updateCommentEntity.ModifiedOn = DateTime.UtcNow;
-            await _commentRepository.Update(updateCommentEntity);
-            entity = _mapper.Map<CommentDTO>(updateCommentEntity);
-            return entity;
-
+            try
+            {
+                var updateCommentEntity = _mapper.Map<Comment>(entity);
+                updateCommentEntity.ModifiedOn = DateTime.UtcNow;
+                await _commentRepository.Update(updateCommentEntity);
+                entity = _mapper.Map<CommentDTO>(updateCommentEntity);
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
         }
-        public async System.Threading.Tasks.Task Delete(CommentDTO entity)
+        public async System.Threading.Tasks.Task<ResponseWrapper<CommentDTO>> Delete(CommentDTO entity)
         {
-            var deleteCommentEntity = _mapper.Map<Comment>(entity);
-            await _commentRepository.Delete(deleteCommentEntity);
+            try
+            {
+                var deleteCommentEntity = _mapper.Map<Comment>(entity);
+                await _commentRepository.Delete(deleteCommentEntity);
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ResponseData = _mapper.Map<CommentDTO>(deleteCommentEntity),
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<CommentDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+
         }
     }
 }
