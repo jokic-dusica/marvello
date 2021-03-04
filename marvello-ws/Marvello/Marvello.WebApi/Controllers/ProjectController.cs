@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,19 +24,22 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProject()
         {
-            var listProject = await _projectService.GetAll();
-            return Ok(listProject);
+            var response = await _projectService.GetAll();
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProject(long id)
         {
-            var oneProject = await _projectService.GetOne(id);
-            if(oneProject == null)
+            var response = await _projectService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneProject);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -42,10 +47,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveProject = await _projectService.Save(entity);
-            return Created("localhost:8080/api/projects/" + saveProject.Id, saveProject);
+            var response = await _projectService.Save(entity);
+            return Created("localhost:8080/api/projects/" + response.ResponseData?.Id, response);
         }
 
         [HttpPut("{id}")]
@@ -53,10 +61,13 @@ namespace Marvello.WebApi.Controllers
         {
             if (entity == null || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateProject = await _projectService.Update(entity);
-            return Ok(updateProject);
+            var response = await _projectService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -64,10 +75,13 @@ namespace Marvello.WebApi.Controllers
         {
            if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _projectService.Delete(entity);
-            return Ok();
+            var response = await _projectService.Delete(entity);
+            return Ok(response);
         }
     }
 }

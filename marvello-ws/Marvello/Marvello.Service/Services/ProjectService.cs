@@ -2,7 +2,9 @@
 using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
 using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,42 +22,127 @@ namespace Marvello.Service.Services
             _projectRepository = projectRepository;
             _mapper = mapper;
         }
-        public async Task<List<ProjectDTO>> GetAll()
+        public async Task<ResponseWrapper<List<ProjectDTO>>> GetAll()
         {
-            var listProject = await _projectRepository.GetAll();
-            var listProjectDTO = _mapper.Map<List<ProjectDTO>>(listProject);
-            return listProjectDTO;
+            try
+            {
+                var listProject = await _projectRepository.GetAll();
+                var listProjectDTO = _mapper.Map<List<ProjectDTO>>(listProject);
+                var response = new ResponseWrapper<List<ProjectDTO>>()
+                {
+                    ResponseData = listProjectDTO,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch {
+                var response = new ResponseWrapper<List<ProjectDTO>>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
         }
 
-        public async Task<ProjectDTO> GetOne(long id)
+        public async Task <ResponseWrapper<ProjectDTO>> GetOne(long id)
         {
-            var oneProject = await _projectRepository.GetOne(id);
-            var oneProjectDTO = _mapper.Map<ProjectDTO>(oneProject);
-            return oneProjectDTO;
+            try
+            {
+                var oneProject = await _projectRepository.GetOne(id);
+                var oneProjectDTO = _mapper.Map<ProjectDTO>(oneProject);
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ResponseData = oneProjectDTO,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;             
+            }
         }
 
-        public async Task<ProjectDTO> Save(ProjectDTO entity)
+        public async Task<ResponseWrapper<ProjectDTO>> Save(ProjectDTO entity)
         {
-            var projectEntity = _mapper.Map<Project>(entity);
-            projectEntity.CreatedOn = DateTime.UtcNow;
-            await _projectRepository.Save(projectEntity);
-            entity = _mapper.Map<ProjectDTO>(projectEntity);
-            return entity;
+            try
+            {
+                var projectEntity = _mapper.Map<Project>(entity);
+                projectEntity.CreatedOn = DateTime.UtcNow;
+                await _projectRepository.Save(projectEntity);
+                entity = _mapper.Map<ProjectDTO>(projectEntity);
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }                      
         }
 
-        public async Task<ProjectDTO> Update(ProjectDTO entity)
+        public async Task<ResponseWrapper<ProjectDTO>> Update(ProjectDTO entity)
         {
-            var updateProject = _mapper.Map<Project>(entity);
-            updateProject.ModifiedOn = DateTime.UtcNow;
-            await _projectRepository.Update(updateProject);
-            entity = _mapper.Map<ProjectDTO>(updateProject);
-            return entity;
+            try
+            {
+                var updateProject = _mapper.Map<Project>(entity);
+                updateProject.ModifiedOn = DateTime.UtcNow;
+                await _projectRepository.Update(updateProject);
+                entity = _mapper.Map<ProjectDTO>(updateProject);
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }           
         }
-        public async System.Threading.Tasks.Task Delete(ProjectDTO entity)
+        public async System.Threading.Tasks.Task <ResponseWrapper<ProjectDTO>> Delete(ProjectDTO entity)
         {
-            var deleteProject = _mapper.Map<Project>(entity);
-            await _projectRepository.Delete(deleteProject);
+            try
+            {
+                var deleteProject = _mapper.Map<Project>(entity);
+                await _projectRepository.Delete(deleteProject);
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ResponseData = _mapper.Map<ProjectDTO>(deleteProject),
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }           
         }
-
     }
 }
