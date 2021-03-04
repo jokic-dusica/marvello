@@ -2,7 +2,9 @@
 using Marvello.Data.Entities;
 using Marvello.Repository.Interfaces;
 using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,43 +22,132 @@ namespace Marvello.Service.Services
             _mapper = mapper;
         }
     
-        public async Task<List<ProjectUserDTO>> GetAll()
+        public async Task <ResponseWrapper<List<ProjectUserDTO>>> GetAll()
         {
-            var listProjectUser = await _projectUserRepository.GetAll();
-            var listDTOs = _mapper.Map<List<ProjectUserDTO>>(listProjectUser);
-            return listDTOs;
+            try
+            {
+                var listProjectUser = await _projectUserRepository.GetAll();
+                var listDTOs = _mapper.Map<List<ProjectUserDTO>>(listProjectUser);
+                var response = new ResponseWrapper<List<ProjectUserDTO>>()
+                {
+                    ResponseData = listDTOs,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<List<ProjectUserDTO>>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }           
         }
 
-        public async Task<ProjectUserDTO> GetOne(int id)
+        public async Task <ResponseWrapper<ProjectUserDTO>> GetOne(int id)
         {
-            var oneProjectUser = await _projectUserRepository.GetOne(id);
-            var DTOs = _mapper.Map<ProjectUserDTO>(oneProjectUser);
-            return DTOs;
+            try
+            {
+                var oneProjectUser = await _projectUserRepository.GetOne(id);
+                var DTOs = _mapper.Map<ProjectUserDTO>(oneProjectUser);
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ResponseData = DTOs,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }           
         }
 
-        public async Task<ProjectUserDTO> Save(ProjectUserDTO entity)
+        public async Task <ResponseWrapper<ProjectUserDTO>> Save(ProjectUserDTO entity)
         {
-            var projectUser = _mapper.Map<ProjectUser>(entity);
-            projectUser.CreatedOn = DateTime.UtcNow;
-            await _projectUserRepository.Save(projectUser);
+            try
+            {
+                var projectUser = _mapper.Map<ProjectUser>(entity);
+                projectUser.CreatedOn = DateTime.UtcNow;
+                await _projectUserRepository.Save(projectUser);
 
-            entity = _mapper.Map<ProjectUserDTO>(projectUser);
-            return entity;
+                entity = _mapper.Map<ProjectUserDTO>(projectUser);
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+           
         }
 
-        public async Task<ProjectUserDTO> Update(ProjectUserDTO entity)
+        public async Task <ResponseWrapper<ProjectUserDTO>> Update(ProjectUserDTO entity)
         {
-            var updateUser = _mapper.Map<ProjectUser>(entity);
-            updateUser.ModifiedOn = DateTime.UtcNow;
-            await _projectUserRepository.Update(updateUser);
+            try
+            {
+                var updateUser = _mapper.Map<ProjectUser>(entity);
+                updateUser.ModifiedOn = DateTime.UtcNow;
+                await _projectUserRepository.Update(updateUser);
 
-            entity = _mapper.Map<ProjectUserDTO>(updateUser);
-            return entity;
+                entity = _mapper.Map<ProjectUserDTO>(updateUser);
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+            
         }
-        public async System.Threading.Tasks.Task Delete(ProjectUserDTO entity)
+        public async System.Threading.Tasks.Task <ResponseWrapper<ProjectUserDTO>> Delete(ProjectUserDTO entity)
         {
-            var deleteUser = _mapper.Map<ProjectUser>(entity);
-            await _projectUserRepository.Delete(deleteUser);
+            try
+            {
+                var deleteUser = _mapper.Map<ProjectUser>(entity);
+                await _projectUserRepository.Delete(deleteUser);
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ResponseData = _mapper.Map<ProjectUserDTO>(deleteUser),
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<ProjectUserDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+            
         }
     }
 }

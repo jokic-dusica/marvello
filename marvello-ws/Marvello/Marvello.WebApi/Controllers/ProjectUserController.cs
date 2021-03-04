@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,29 +24,35 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProjectUser()
         {
-            var listProjectUser = await _projectUserService.GetAll();
-            return Ok(listProjectUser);
+            var response = await _projectUserService.GetAll();
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProjectUser(int id)
         {
-            var oneProjectUser = await _projectUserService.GetOne(id);
-            if(oneProjectUser == null)
+            var response = await _projectUserService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<ProjectUserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneProjectUser);
+            return Ok(response);
         }
         [HttpPost]
         public async Task<IActionResult> SaveProjectUser([FromBody] ProjectUserDTO entity)
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectUserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveProjectUser = await _projectUserService.Save(entity);
-            return Created("localhost:8080/api/projectusers/" + saveProjectUser.Id, saveProjectUser);
+            var response = await _projectUserService.Save(entity);
+            return Created("localhost:8080/api/projectusers/" + response.ResponseData.Id, response);
         }
 
         [HttpPut("{id}")]
@@ -52,10 +60,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectUserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateProjectUser = await _projectUserService.Update(entity);
-            return Ok(updateProjectUser);
+            var response = await _projectUserService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -63,10 +74,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectUserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _projectUserService.Delete(entity);
-            return Ok();
+            var response = await _projectUserService.Delete(entity);
+            return Ok(response);
         }
     }
 }

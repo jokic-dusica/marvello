@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Marvello.Repository.Interfaces;
 using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,44 +21,133 @@ namespace Marvello.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<List<TaskDTO>> GetAll()
+        public async Task <ResponseWrapper<List<TaskDTO>>> GetAll()
         {
-            var listTask = await _taskRepository.GetAll();
-            var taskDTOs = _mapper.Map<List<TaskDTO>>(listTask);
-            return taskDTOs;
-
+            try
+            {
+                var listTask = await _taskRepository.GetAll();
+                var taskDTOs = _mapper.Map<List<TaskDTO>>(listTask);
+                var response = new ResponseWrapper<List<TaskDTO>>()
+                {
+                    ResponseData = taskDTOs,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<List<TaskDTO>>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
         }
 
-        public async Task<TaskDTO> GetOne(long id)
+        public async Task <ResponseWrapper<TaskDTO>> GetOne(long id)
         {
-            var oneTask = await _taskRepository.GetOne(id);
-            var oneTaskDTOs = _mapper.Map<TaskDTO>(oneTask);
-            return oneTaskDTOs;
+            try
+            {
+                var oneTask = await _taskRepository.GetOne(id);
+                var oneTaskDTOs = _mapper.Map<TaskDTO>(oneTask);
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ResponseData = oneTaskDTOs,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+            
         }
 
-        public async Task<TaskDTO> Save(TaskDTO entity)
+        public async Task <ResponseWrapper<TaskDTO>> Save(TaskDTO entity)
         {
-            var saveTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
-            saveTask.CreatedOn = DateTime.UtcNow;
-            await _taskRepository.Save(saveTask);
+            try
+            {
+                var saveTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
+                saveTask.CreatedOn = DateTime.UtcNow;
+                await _taskRepository.Save(saveTask);
 
-            entity = _mapper.Map<TaskDTO>(saveTask);
-            return entity;
+                entity = _mapper.Map<TaskDTO>(saveTask);
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+            
         }
 
-        public async Task<TaskDTO> Update(TaskDTO entity)
+        public async Task <ResponseWrapper<TaskDTO>> Update(TaskDTO entity)
         {
-            var updateTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
-            updateTask.ModifiedOn = DateTime.UtcNow;
-            await _taskRepository.Update(updateTask);
+            try
+            {
+                var updateTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
+                updateTask.ModifiedOn = DateTime.UtcNow;
+                await _taskRepository.Update(updateTask);
 
-            entity = _mapper.Map<TaskDTO>(updateTask);
-            return entity;
+                entity = _mapper.Map<TaskDTO>(updateTask);
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ResponseData = entity,
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+            
         }
-        public async System.Threading.Tasks.Task Delete(TaskDTO entity)
+        public async System.Threading.Tasks.Task <ResponseWrapper<TaskDTO>> Delete(TaskDTO entity)
         {
-            var deleteTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
-            await _taskRepository.Delete(deleteTask);
+            try
+            {
+                var deleteTask = _mapper.Map<Marvello.Data.Entities.Task>(entity);
+                await _taskRepository.Delete(deleteTask);
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ResponseData = _mapper.Map<TaskDTO>(deleteTask),
+                    IsSuccess = true
+                };
+                return response;
+            }
+            catch
+            {
+                var response = new ResponseWrapper<TaskDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+        
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,19 +24,21 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProjectType()
         {
-            var listProjectType = await _projectTypeService.GetAll();
-            return Ok(listProjectType);
+            var response = await _projectTypeService.GetAll();
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOneProjectType(int id)
         {
-            var oneProjectType = await _projectTypeService.GetOne(id);
-            if(oneProjectType == null)
+            var response = await _projectTypeService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<ProjectTypeDTO>() { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneProjectType);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -42,10 +46,12 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectTypeDTO>() { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveProjectType = await _projectTypeService.Save(entity);
-            return Created("localhost:8080/api/projecttypes/" + saveProjectType.Id, saveProjectType);
+            var response = await _projectTypeService.Save(entity);
+            return Created("localhost:8080/api/projecttypes/" + response.ResponseData.Id, response);
         }
 
         [HttpPut("{id}")]
@@ -53,10 +59,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectTypeDTO>() 
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateProjectType = await _projectTypeService.Update(entity);
-            return Ok(updateProjectType);
+            var response = await _projectTypeService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -64,10 +73,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<ProjectTypeDTO>() 
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _projectTypeService.Delete(entity);
-            return Ok();
+            var response = await _projectTypeService.Delete(entity);
+            return Ok(response);
         }
     }
 }

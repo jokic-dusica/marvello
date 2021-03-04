@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,19 +24,22 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllTask()
         {
-            var listTasks = await _taskService.GetAll();
-            return Ok(listTasks);
+            var response = await _taskService.GetAll();
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTaskById(long id)
         {
-            var oneTask = await _taskService.GetOne(id);
-            if(oneTask == null)
+            var response = await _taskService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<TaskDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneTask);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -42,10 +47,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<TaskDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveTask = await _taskService.Save(entity);
-            return Created("localhost:8080/api/tasks/" + saveTask.Id, saveTask);
+            var response = await _taskService.Save(entity);
+            return Created("localhost:8080/api/tasks/" + response.ResponseData.Id, response);
         }
 
         [HttpPut("{id}")]
@@ -53,10 +61,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null  || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<TaskDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateTask = await _taskService.Update(entity);
-            return Ok(updateTask);
+            var response = await _taskService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -64,10 +75,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<TaskDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _taskService.Delete(entity);
-            return Ok();
+            var response = await _taskService.Delete(entity);
+            return Ok(response);
         }
     }
 }

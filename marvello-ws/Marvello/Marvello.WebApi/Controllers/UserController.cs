@@ -1,5 +1,7 @@
 ﻿using Marvello.Service.DTOs;
+using Marvello.Service.Enums;
 using Marvello.Service.Interfaces;
+using Marvello.Service.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,29 +24,35 @@ namespace Marvello.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var listUsers = await _userService.GetAll();
-            return Ok(listUsers);
+            var response = await _userService.GetAll();
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOneUser(long id)
         {   
-            var oneUser = await _userService.GetOne(id);
-            if(oneUser == null)
+            var response = await _userService.GetOne(id);
+            if(response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
             {
-                return NotFound();
+                return NotFound(new ResponseWrapper<UserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
             }
-            return Ok(oneUser);
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveUser([FromBody] UserDTO entity)
         {
             if(entity == null) {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<UserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var saveUser = await _userService.Save(entity);
-            return Created("localhost:8080/api/users" + saveUser.Id, saveUser);
+            var response = await _userService.Save(entity);
+            return Created("localhost:8080/api/users" + response.ResponseData.Id, response);
         }
 
         [HttpPut ("{id}")]
@@ -52,10 +60,13 @@ namespace Marvello.WebApi.Controllers
         {
             if (entity == null || id == 0)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<UserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            var updateUser = await _userService.Update(entity);
-            return Ok(updateUser);
+            var response = await _userService.Update(entity);
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -63,10 +74,13 @@ namespace Marvello.WebApi.Controllers
         {
             if(entity == null)
             {
-                return BadRequest();
+                return BadRequest(new ResponseWrapper<UserDTO>() 
+                { 
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.BadRequestError)
+                });
             }
-            await _userService.Delete(entity);
-            return Ok();
+            var response = await _userService.Delete(entity);
+            return Ok(response);
         }
     }
 }
