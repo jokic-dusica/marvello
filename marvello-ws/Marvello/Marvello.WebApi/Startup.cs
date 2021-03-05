@@ -75,6 +75,7 @@ namespace Marvello
             services.AddScoped<IProjectUserService, ProjectUserService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddAutoMapper(typeof (Startup));
 
         }
