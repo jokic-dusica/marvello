@@ -14,7 +14,10 @@ namespace Marvello.Service.Enums
         NotFoundError = 1,
 
         [Description("Request from client is inncorrect!")]
-        BadRequestError = 2
+        BadRequestError = 2,
+
+        [Description("Incorrect Username or Password")]
+        IncorrectLoginData = 3
 
     }
 }

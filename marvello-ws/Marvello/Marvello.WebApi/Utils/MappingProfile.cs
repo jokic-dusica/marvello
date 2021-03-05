@@ -25,6 +25,7 @@ namespace Marvello.WebApi.Utils
             CreateMap<ProjectUserDTO, ProjectUser>();
             CreateMap<TaskDTO, Data.Entities.Task>();
             CreateMap<UserDTO, User>();
+            CreateMap<RegisterUserDTO, User>();
         }
     }
 }
