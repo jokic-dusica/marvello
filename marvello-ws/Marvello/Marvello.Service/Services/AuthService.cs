@@ -22,12 +22,67 @@ namespace Marvello.Service.Services
         private readonly IUserRepository _userRepostiory;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        public AuthService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper)
+        private readonly IRefreshTokenService _refreshTokenService;
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper, IRefreshTokenService refreshTokenService)
         {
             _userRepostiory = userRepository;
             _configuration = configuration;
             _mapper = mapper;
+            _refreshTokenService = refreshTokenService;
         }
+
+        public async Task<ResponseWrapper<AuthDTO>> RefreshToken(string token)
+        {
+            var refreshToken = await _refreshTokenService.GetTokenByToken(token);
+           if(refreshToken != null)
+            {
+                var userFromDB =await  _userRepostiory.GetOne(refreshToken.UserId);
+                await _refreshTokenService.SaveRefreshToken(refreshToken, true);
+                var newRefreshToken = CommonHelper.CreateRefreshToken();
+                newRefreshToken.UserId = userFromDB.Id;
+                var newRefreshTokenDTO = _mapper.Map<RefreshTokenDTO>(newRefreshToken);
+                newRefreshTokenDTO =  await _refreshTokenService.SaveRefreshToken(newRefreshTokenDTO, false);
+                var claims = new List<Claim>();
+                var isAdminCheck = userFromDB.UserType == (int)UserTypeEnum.Administrator ? true : false;
+                var roleClaim = isAdminCheck ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "Regular");
+                claims.Add(roleClaim);
+
+                claims.Add(new Claim("id", userFromDB.Id.ToString()));
+                var secretKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:Secret").Value));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
+
+                var tokenOptions = new JwtSecurityToken(
+
+                    expires: DateTime.Now.AddMinutes(5),
+                    signingCredentials: signinCredentials,
+                    claims: claims
+
+                    );
+
+                var jwtToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+                var successLogin = new AuthDTO
+                {
+                    Token = jwtToken,
+                    IsAdmin = isAdminCheck,
+                    RefreshToken = newRefreshTokenDTO.Token,
+                    RefreshTokenExpires = newRefreshTokenDTO.ExpiredOn
+
+                };
+                return new ResponseWrapper<AuthDTO>()
+                {
+                    ResponseData = successLogin,
+                    IsSuccess = true
+                };
+            }
+
+            return new ResponseWrapper<AuthDTO>()
+            {
+                IsSuccess = false
+            };
+        }
+
         public async Task<ResponseWrapper<AuthDTO>> SignIn(LoginDTO login)
         {
             var userFromDB = await  _userRepostiory.FirstOrDefault(user => user.Username == login.Username || user.Email == login.Username);
@@ -69,10 +124,22 @@ namespace Marvello.Service.Services
                 );
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            var refreshToken =await  _refreshTokenService.GetTokenByUser(userFromDB.Id);
+            if(refreshToken == null)
+            {
+                var newToken = CommonHelper.CreateRefreshToken();
+                newToken.UserId = userFromDB.Id;
+                var newTokenDTO = _mapper.Map<RefreshTokenDTO>(newToken);
+                refreshToken =  await _refreshTokenService.SaveRefreshToken(newTokenDTO, false);
+            }
+
             var successLogin = new AuthDTO
             {
                 Token = token,
-                IsAdmin = isAdminCheck
+                IsAdmin = isAdminCheck,
+                RefreshToken = refreshToken.Token,
+                RefreshTokenExpires = refreshToken.ExpiredOn
+
             };
             return new ResponseWrapper<AuthDTO>()
             {

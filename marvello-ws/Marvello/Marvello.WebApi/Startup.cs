@@ -67,6 +67,7 @@ namespace Marvello
             services.AddScoped<IProjectUserRepository, ProjectUserRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             //Services
             services.AddScoped<ICommentService, CommentService>();
@@ -76,6 +77,7 @@ namespace Marvello
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddAutoMapper(typeof (Startup));
 
         }

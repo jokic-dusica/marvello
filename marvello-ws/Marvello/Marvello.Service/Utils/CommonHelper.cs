@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Marvello.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Marvello.Service.Utils
@@ -20,6 +22,20 @@ namespace Marvello.Service.Utils
 
             return attribute == null ? enumVal.ToString() : attribute.Description;
 
+        }
+
+        public static RefreshToken CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var generator = new RNGCryptoServiceProvider())
+            {
+                generator.GetBytes(randomNumber);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomNumber),
+                    ExpiredOn = DateTime.UtcNow.AddDays(10),
+                };
+            }
         }
 
     }

@@ -17,12 +17,14 @@ namespace Marvello.Data.Entities
         public virtual List<ProjectUser> ProjectUsers { get; set; }
         public virtual List<Task> Tasks { get; set; }
         public virtual List<Comment> Comments { get; set; }
+        public virtual List<RefreshToken> RefreshTokens { get; set; }
 
         public User()
         {
             ProjectUsers = new List<ProjectUser>();
             Tasks = new List<Task>();
             Comments = new List<Comment>();
+            RefreshTokens = new List<RefreshToken>();
         }
     }
 }

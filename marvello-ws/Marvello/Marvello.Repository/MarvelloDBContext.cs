@@ -33,6 +33,7 @@ namespace Marvello.Repository
         public DbSet<ProjectType> ProjectsType { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
     }
 
 }

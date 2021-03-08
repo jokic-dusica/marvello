@@ -18,6 +18,7 @@ namespace Marvello.WebApi.Utils
             CreateMap<ProjectUser, ProjectUserDTO>();
             CreateMap<Data.Entities.Task, TaskDTO>();
             CreateMap<User, UserDTO>();
+            CreateMap<RefreshToken, RefreshTokenDTO>();
 
             CreateMap<CommentDTO, Comment>();
             CreateMap<ProjectDTO, Project> ();
@@ -26,6 +27,7 @@ namespace Marvello.WebApi.Utils
             CreateMap<TaskDTO, Data.Entities.Task>();
             CreateMap<UserDTO, User>();
             CreateMap<RegisterUserDTO, User>();
+            CreateMap<RefreshTokenDTO, RefreshToken>();
         }
     }
 }

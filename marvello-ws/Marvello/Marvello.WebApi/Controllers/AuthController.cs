@@ -33,6 +33,12 @@ namespace Marvello.WebApi.Controllers
                 });
             }
             var response = await _authService.SignIn(entity);
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(10)
+            };
+            Response.Cookies.Append("refreshToken", response.ResponseData.RefreshToken, cookieOptions);
             return Ok(response);
              
         }
@@ -51,6 +57,28 @@ namespace Marvello.WebApi.Controllers
             }
             var response = await _authService.SignUp(entity);
             return Ok(response);
+        }
+
+        [HttpPost("refreshToken")]
+
+        public async Task<IActionResult> RefreshToken()
+        {
+            var token = Request.Cookies["refreshToken"];
+            if(token != null)
+            {
+                var response = await _authService.RefreshToken(token);
+                if(response.ResponseData.RefreshToken != null)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.UtcNow.AddDays(10)
+                    };
+                }
+                return Ok(response);
+
+            }
+            return BadRequest();
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Marvello.Service.Interfaces
     {
         Task<ResponseWrapper<AuthDTO>> SignIn(LoginDTO login);
         Task<ResponseWrapper<AuthDTO>> SignUp(RegisterUserDTO user);
+        Task<ResponseWrapper<AuthDTO>> RefreshToken(string token);
     }
 }
