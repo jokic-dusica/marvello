@@ -42,26 +42,8 @@ namespace Marvello.Service.Services
                 newRefreshToken.UserId = userFromDB.Id;
                 var newRefreshTokenDTO = _mapper.Map<RefreshTokenDTO>(newRefreshToken);
                 newRefreshTokenDTO =  await _refreshTokenService.SaveRefreshToken(newRefreshTokenDTO, false);
-                var claims = new List<Claim>();
+                var jwtToken = CommonHelper.CreateJWTToken(userFromDB, _configuration);
                 var isAdminCheck = userFromDB.UserType == (int)UserTypeEnum.Administrator ? true : false;
-                var roleClaim = isAdminCheck ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "Regular");
-                claims.Add(roleClaim);
-
-                claims.Add(new Claim("id", userFromDB.Id.ToString()));
-                var secretKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:Secret").Value));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-
-                var tokenOptions = new JwtSecurityToken(
-
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials,
-                    claims: claims
-
-                    );
-
-                var jwtToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
                 var successLogin = new AuthDTO
                 {
                     Token = jwtToken,
@@ -105,25 +87,10 @@ namespace Marvello.Service.Services
                 };
             }
 
-            var claims = new List<Claim>();
+          
             var isAdminCheck = userFromDB.UserType == (int)UserTypeEnum.Administrator ? true : false;
-            var roleClaim = isAdminCheck ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "Regular");
-            claims.Add(roleClaim);
 
-            claims.Add(new Claim("id", userFromDB.Id.ToString()));
-            var secretKey =
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:Secret").Value));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenOptions = new JwtSecurityToken(
-                
-                expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: signinCredentials,
-                claims: claims
-
-                );
-
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            var token = CommonHelper.CreateJWTToken(userFromDB, _configuration);
             var refreshToken =await  _refreshTokenService.GetTokenByUser(userFromDB.Id);
             if(refreshToken == null)
             {
@@ -155,26 +122,9 @@ namespace Marvello.Service.Services
             userEntity.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             userEntity.CreatedOn = DateTime.UtcNow;
             await _userRepostiory.Save(userEntity);
-
-            var claims = new List<Claim>();
             var isAdminCheck = userEntity.UserType == (int)UserTypeEnum.Administrator ? true : false;
-            var roleClaim = isAdminCheck ? new Claim(ClaimTypes.Role, "Admin") : new Claim(ClaimTypes.Role, "Regular");
-            claims.Add(roleClaim);
-
-            claims.Add(new Claim("id", userEntity.Id.ToString()));
-            var secretKey =
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:Secret").Value));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenOptions = new JwtSecurityToken(
-
-                expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: signinCredentials,
-                claims: claims
-
-                );
-
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+         
+            var token = CommonHelper.CreateJWTToken(userEntity, _configuration);
             var successLogin = new AuthDTO
             {
                 Token = token,
