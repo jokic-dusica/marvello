@@ -121,6 +121,7 @@ namespace Marvello.Service.Services
             var userEntity = _mapper.Map<User>(user);
             userEntity.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             userEntity.CreatedOn = DateTime.UtcNow;
+            userEntity.UserType = (int)UserTypeEnum.Regular;
             await _userRepostiory.Save(userEntity);
             var isAdminCheck = userEntity.UserType == (int)UserTypeEnum.Administrator ? true : false;
          

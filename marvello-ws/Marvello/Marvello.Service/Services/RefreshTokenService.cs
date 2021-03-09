@@ -5,6 +5,7 @@ using Marvello.Service.DTOs;
 using Marvello.Service.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,14 +24,16 @@ namespace Marvello.Service.Services
 
         public async Task<RefreshTokenDTO> GetTokenByToken(string cookieToken)
         {
-            var tokenResult = await _refreshTokenRepository.FirstOrDefault(token => token.Token == cookieToken);
+            var tokenResultList = await _refreshTokenRepository.GetWhere(token => token.Token == cookieToken);
+            var tokenResult = tokenResultList.Where(t => t.IsExpired == false).FirstOrDefault();
             var tokenResultDTO = _mapper.Map<RefreshTokenDTO>(tokenResult);
             return tokenResultDTO;
         }
 
         public async Task<RefreshTokenDTO> GetTokenByUser(long userId)
         {
-            var token = await _refreshTokenRepository.FirstOrDefault(token => token.UserId == userId && token.IsExpired == false);
+            var tokenList  = await _refreshTokenRepository.GetWhere(token => token.UserId == userId);
+            var token = tokenList.Where(t => t.IsExpired == false).FirstOrDefault();
             var tokenDTO = _mapper.Map<RefreshTokenDTO>(token);
             return tokenDTO;
         }

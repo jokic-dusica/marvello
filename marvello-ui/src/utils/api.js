@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react';
-import useAuth from '../hooks/useAuth';
+import {refreshToken} from '../utils/util';
+
 
 const defaultUrl = "localhost:8080";
-const {refreshToken} = useAuth();
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use(function(config){
     let token = localStorage.getItem("accessToken");
@@ -18,7 +18,7 @@ function(error) {
     return Promise.reject(error);
 })
 
-axios.interceptors.response.use(function(config) {
+axios.interceptors.response.use(function(response) {
    return response;
 }, async function(err){
     const originalRequest = err.config;

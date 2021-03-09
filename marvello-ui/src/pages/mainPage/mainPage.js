@@ -14,6 +14,7 @@ const MainPage = () => {
             )
         })} */}
          <p>{projectTypes?.name}</p>
+         <h1>Dashboard</h1>
     </>
 }
 
