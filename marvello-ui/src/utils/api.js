@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 
 const defaultUrl = "localhost:8080";
+axios.defaults.withCredentials = true;
 export const apiCall =  async (url, method, data = null) => {
     try {
         var response = await axios({

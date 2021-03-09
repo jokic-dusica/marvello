@@ -59,8 +59,8 @@ namespace Marvello.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost("refreshToken")]
 
+        [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken()
         {
             var token = Request.Cookies["refreshToken"];
@@ -74,6 +74,7 @@ namespace Marvello.WebApi.Controllers
                         HttpOnly = true,
                         Expires = DateTime.UtcNow.AddDays(10)
                     };
+                    Response.Cookies.Append("refreshToken", response.ResponseData.RefreshToken, cookieOptions);
                 }
                 return Ok(response);
 
