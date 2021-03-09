@@ -5,9 +5,7 @@ import MainPage from './pages/mainPage/mainPage';
 import axios from 'axios';
 
 function App() {
-  axios.interceptors.response.use() {
-    
-  }
+
   return (
     <Router>
       <div className="App">

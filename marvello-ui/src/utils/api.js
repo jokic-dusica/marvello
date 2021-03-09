@@ -1,8 +1,35 @@
 import axios from 'axios';
 import React from 'react';
+import useAuth from '../hooks/useAuth';
 
 const defaultUrl = "localhost:8080";
+const {refreshToken} = useAuth();
 axios.defaults.withCredentials = true;
+axios.interceptors.request.use(function(config){
+    let token = localStorage.getItem("accessToken");
+    if(token) {
+        config.headers = {
+            'Authorization' : `Bearer ${token}`
+        }
+    }
+    return config;
+},
+function(error) {
+    return Promise.reject(error);
+})
+
+axios.interceptors.response.use(function(config) {
+   return response;
+}, async function(err){
+    const originalRequest = err.config;
+    if(err.response.status == 401 ){
+        let token = await refreshToken();
+        localStorage.setItem("accessToken",token);
+        originalRequest.headers['Authorization'] = 'Bearer' + token;
+        return axios(originalRequest);
+    }
+})
+
 export const apiCall =  async (url, method, data = null) => {
     try {
         var response = await axios({
@@ -13,7 +40,7 @@ export const apiCall =  async (url, method, data = null) => {
         })
     return {
         isSuccess: true,
-        data: response.data
+        data: response.data.responseData
     }
     } catch (error) {
         return {
