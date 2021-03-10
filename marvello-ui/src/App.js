@@ -5,6 +5,7 @@ import MainPage from './pages/mainPage/mainPage';
 import LoginPage from '../src/pages/login/loginPage';
 import RegisterPage from '../src/pages/register/registerPage';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 

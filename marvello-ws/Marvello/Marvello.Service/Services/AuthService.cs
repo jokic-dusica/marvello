@@ -76,9 +76,8 @@ namespace Marvello.Service.Services
                     IsSuccess = false
                 };
             }
-
-            bool verified = BCrypt.Net.BCrypt.Verify(login.Password, userFromDB.Password);
-            if(!verified)
+            bool verified = CommonHelper.CheckPassword(login.Password, userFromDB.Password);
+            if (!verified)
             {
                 return new ResponseWrapper<AuthDTO>()
                 {

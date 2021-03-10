@@ -66,6 +66,19 @@ namespace Marvello.Service.Utils
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             return jwtToken;
         }
+        public static bool CheckPassword(string plainText, string hash)
+        {
+            try
+            {
+                bool verified = BCrypt.Net.BCrypt.Verify(plainText, hash);
+                return verified;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+        }
 
     }
 }
