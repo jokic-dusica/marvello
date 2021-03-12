@@ -29,20 +29,27 @@ const LoginPage = () => {
     return (
         <Container fluid>
             <Row>
-                <Col md = {5} className = {loginModule.loginBckg}>
+                <Col md = {7} className = {loginModule.loginBckg}>
 
                 </Col>
-                <Col md = {7}>
+                <Col md = {5} className = {loginModule.loginForm}>
+                    <div className = {loginModule.mainWrapperTitle}>
+                        <h4 className = {loginModule.mainTitle}>Welcome to Marvello!</h4>
+                    </div>
                     <div className = {loginModule.formWrapper}>
-                        <h3>Welcome to Marvello! Please Sign in</h3>
-                        <div>
-                            <input type="text" name="username" placeholder = "Username" onChange = {inputChangeHandler}/>
+                        <div className = {loginModule.inputForm}>
+                            <input type="text" name="username" placeholder = "username" onChange = {inputChangeHandler}/>
                         </div>
-                        <div>
-                            <input type="password" name="password" placeholder = "Password" onChange = {inputChangeHandler}/>
+                        <div className = {loginModule.inputForm}>
+                            <input type="password" name="password" placeholder = "password" onChange = {inputChangeHandler}/>
                         </div>
+                        <a href = "#">
+                            <p className = {loginModule.linkStyle}>Forgot your password?</p>
+                        </a>
                         <p>{errorMessage}</p>
-                        <button onClick = {signInSubmit}>Sign in</button>
+                        <div className = {loginModule.btnWrapper}>
+                            <button onClick = {signInSubmit}>Sign in</button>
+                        </div>
                     </div>                  
                 </Col>
             </Row>          

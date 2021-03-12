@@ -1,19 +1,31 @@
+import { useContext } from "react";
+import { AuthContext } from "../store/auth/authContext";
 import { apiCall } from "../utils/api";
 
-const defaultUrl = "api/auth";
+// const defaultUrl = "api/auth";
 const useAuth = () => {
+    const [state, dispatch] = useContext(AuthContext);
 
     const signIn = async(entity) => {
-        let response = await apiCall(`${defaultUrl}/login`,"post", entity);
-        if(response.isSuccess == true) {
-            localStorage.setItem("accessToken",response.data.token);
-            
+      await dispatch ({
+        type: "LOGIN",
+        userDTO: entity
+      })
+
+      return {
+        isSuccess:state?.isSuccess,
+        message: state?.message
         }
-        return response;
     }
     const signUp = async(entity) => {
-        let response = await apiCall(`${defaultUrl}/register`,"post",entity);
-       return response;
+       await dispatch ({
+           type:"REGISTER",
+           newUser: entity
+       })
+       return {
+           isSuccess: state.isSuccess,
+           message: state.message
+       }
     }
 
     return {
