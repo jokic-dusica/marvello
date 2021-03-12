@@ -12,18 +12,15 @@ function App() {
 
   return (
     <AuthContextProvider>
-    <Router>
-      <div className="App">
-        <Switch>
-        
-            <Route path = "/dashboard" component = {MainPage}/>
-            <Route exact path = "/" component = {LoginPage}/>
-            <Route path = "/register" component = {RegisterPage}/>
-    
-        </Switch>
-        
-      </div>
-    </Router>      
+      <Router>
+        <div className="App">
+          <Switch>         
+              <Route path = "/dashboard" component = {MainPage}/>
+              <Route exact path = "/" component = {LoginPage}/>
+              <Route path = "/register" component = {RegisterPage}/>     
+          </Switch>         
+        </div>
+      </Router>      
     </AuthContextProvider>
   );
 }

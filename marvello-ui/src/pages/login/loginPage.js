@@ -1,12 +1,14 @@
-import React,{useState} from 'react';
+import React,{useContext, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
 import {useHistory} from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import loginModule from '../login/login.module.css';
+import { AuthContext } from '../../store/auth/authContext';
 
 
 const LoginPage = () => {
-    const {signIn} = useAuth();
+    const {signIn} = useAuth(); 
+    const [state, dispatch] = useContext(AuthContext);
     let history = useHistory();
     const[loginData, setLoginData] = useState(
     {
@@ -19,11 +21,8 @@ const LoginPage = () => {
    }
    const signInSubmit = async () => {
         var response = await signIn(loginData);
-        if(response.isSuccess) {
-            history.push("/dashboard");
-        }
-        else {
-            setErrorMessage(response.message);
+        if(response.isSuccess == true){
+            history.push('/dashboard');
         }
    }
     return (
