@@ -3,12 +3,10 @@ import useAuth from '../../hooks/useAuth';
 import {useHistory} from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import loginModule from '../login/login.module.css';
-import { AuthContext } from '../../store/auth/authContext';
 
 
 const LoginPage = () => {
-    const {signIn} = useAuth(); 
-    const [state, dispatch] = useContext(AuthContext);
+    const {signIn,isSuccess} = useAuth(); 
     let history = useHistory();
     const[loginData, setLoginData] = useState(
     {
@@ -20,8 +18,9 @@ const LoginPage = () => {
         setLoginData({...loginData,[e.target.name]:e.target.value})
    }
    const signInSubmit = async () => {
-        var response = await signIn(loginData);
-        if(response.isSuccess == true){
+        await signIn(loginData);
+        debugger;
+        if(isSuccess == true){
             history.push('/dashboard');
         }
    }

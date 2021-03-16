@@ -6,12 +6,12 @@ import LoginPage from '../src/pages/login/loginPage';
 import RegisterPage from '../src/pages/register/registerPage';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthContextProvider } from './store/auth/authContext';
+import { StoreProvider } from './store/storeProvider';
 
 function App() {
 
   return (
-    <AuthContextProvider>
+    <StoreProvider>
       <Router>
         <div className="App">
           <Switch>         
@@ -21,7 +21,7 @@ function App() {
           </Switch>         
         </div>
       </Router>      
-    </AuthContextProvider>
+    </StoreProvider>
   );
 }
 
