@@ -38,8 +38,14 @@ namespace Marvello.WebApi.Controllers
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(10)
             };
-            Response.Cookies.Append("refreshToken", response.ResponseData.RefreshToken, cookieOptions);
-            return Ok(response);
+            if(response != null && response.ResponseData != null)
+            {
+                Response.Cookies.Append("refreshToken", response.ResponseData.RefreshToken, cookieOptions);
+
+                return Ok(response);
+            }
+            return BadRequest(response);
+
              
         }
 

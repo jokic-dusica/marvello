@@ -6,20 +6,10 @@ import { StoreContext } from "../store/storeProvider";
 
 const useAuth = () => {
     const {
-        auth:{
-            isSuccess,
-            token,
-            signIn,
-            signUp
-        }
+        auth
     } = useContext(StoreContext)
    
-    return {
-        isSuccess,
-        token,
-        signIn,
-        signUp
-    }
+    return auth;
 }
 
 

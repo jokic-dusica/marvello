@@ -28,6 +28,7 @@ axios.interceptors.response.use(function(response) {
         originalRequest.headers['Authorization'] = 'Bearer' + token;
         return axios(originalRequest);
     }
+    return Promise.reject(err.response);
 })
 
 export const apiCall =  async (url, method, data = null) => {
@@ -45,7 +46,7 @@ export const apiCall =  async (url, method, data = null) => {
     } catch (error) {
         return {
             isSuccess: false,
-            message: error
+            message: error.data.errorMessage
         }
     }
 }

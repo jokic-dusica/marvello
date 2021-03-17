@@ -1,13 +1,17 @@
 import React,{useContext, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
-import {useHistory} from 'react-router-dom';
+import {useHistory,Redirect} from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import loginModule from '../login/login.module.css';
+import {observer} from 'mobx-react';
+import {StoreContext} from '../../store/storeProvider';
+import AuthStore from '../../store/auth/authStore';
 
 
-const LoginPage = () => {
-    const {signIn,isSuccess} = useAuth(); 
+const LoginPage = (props) => {
+    // const {signIn,isSuccess, message} = useAuth(); 
     let history = useHistory();
+    const auth = new AuthStore();
     const[loginData, setLoginData] = useState(
     {
         username:"",
@@ -17,12 +21,13 @@ const LoginPage = () => {
    const inputChangeHandler = (e) => {
         setLoginData({...loginData,[e.target.name]:e.target.value})
    }
+   
    const signInSubmit = async () => {
-        await signIn(loginData);
-        debugger;
-        if(isSuccess == true){
-            history.push('/dashboard');
-        }
+        await auth.signIn(loginData);
+        setErrorMessage(auth.message);
+        if(auth.isSuccess){
+           history.push('/dashboard');
+        }      
    }
     return (
         <Container fluid>
@@ -48,7 +53,8 @@ const LoginPage = () => {
                         <div className = {loginModule.btnWrapper}>
                             <button onClick = {signInSubmit}>Sign in</button>
                         </div>
-                    </div>                  
+                    </div>
+                    {auth.message}                  
                 </Col>
             </Row>          
         </Container>
@@ -57,4 +63,4 @@ const LoginPage = () => {
 
 }
 
-export default LoginPage;
+export default observer(LoginPage);

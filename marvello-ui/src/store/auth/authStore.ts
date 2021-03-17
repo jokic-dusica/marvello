@@ -6,19 +6,25 @@ class AuthStore {
     @observable isAdmin = false;
     @observable currentUser = null;
     @observable isSuccess = false;
+    @observable message = "";
 
-    constructor(){
-        this.token = "";
-        this.isSuccess = false;
-    }
+    // constructor(){
+    //     this.token = "";
+    //     this.isSuccess = false;
+        
+    // }
     
     @action.bound
      signIn= async(entity) => {
         let response = await apiCall("/api/auth/login","post", entity);
-        if(response.isSuccess) {
+        if(response.isSuccess == true) {
             this.token = response.data.token;
             this.isSuccess = true;
             this.isAdmin = response.data.isAdmin;
+            this.message = "";
+        }
+        else {
+            this.message = response.message;
         }
     }
     @action.bound
