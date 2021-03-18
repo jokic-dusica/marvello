@@ -1,4 +1,5 @@
 import { observable, action, makeAutoObservable } from "mobx";
+import { threadId } from "node:worker_threads";
 import { apiCall } from "../../utils/api";
 
 class AuthStore {
@@ -8,6 +9,8 @@ class AuthStore {
     @observable isSuccess = false;
     @observable message = "";
     @observable createdUser = null;
+    @observable isLogged = false;
+    @observable isApiSent = false;
 
     // constructor(){
     //     this.token = "";
@@ -16,16 +19,19 @@ class AuthStore {
     // }
     
     @action.bound
-     signIn= async(entity) => {
+     signIn = async(entity) => {
         let response = await apiCall("/api/auth/login","post", entity);
         if(response.isSuccess == true) {
             this.token = response.data.token;
             this.isSuccess = true;
             this.isAdmin = response.data.isAdmin;
             this.message = "";
+            this.isLogged = true;
+            this.isApiSent = false;
         }
         else {
             this.message = response.message;
+            this.isApiSent = false;
         }
     }
     @action.bound

@@ -35,10 +35,10 @@ const RegisterPage = () => {
         }
     }
     const registerFormSubmit = async () => {
-        authStore.signUp(newUser);
+        await authStore.signUp(newUser);
         if(authStore.isSuccess) {
             userStore.addUserToList(authStore.createdUser);
-            history.push("/login");
+            history.push("/");
         }
         else {
             setErrorMessage(authStore.message);

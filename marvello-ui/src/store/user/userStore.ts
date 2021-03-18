@@ -8,7 +8,6 @@ class UserStore {
     @action.bound
     addUserToList = (user) => {
         this.users.push(user);
-
     }
 }
 export default UserStore;
