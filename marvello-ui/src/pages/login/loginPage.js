@@ -9,7 +9,6 @@ import AuthStore from '../../store/auth/authStore';
 
 
 const LoginPage = (props) => {
-    // const {signIn,isSuccess, message} = useAuth(); 
     let history = useHistory();
     const auth = new AuthStore();
     const[loginData, setLoginData] = useState(

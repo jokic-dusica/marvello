@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import {useHistory} from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
+import registerStyle from '../register/register.module.css';
+import AuthStore from '../../store/auth/authStore';
+import UserStore from '../../store/user/userStore';
 
 const RegisterPage = () => {
-    const {signUp} = useAuth();
+    const authStore = new AuthStore();
+    const userStore = new UserStore();
     let history = useHistory();
     const[newUser, setNewUser] = useState(
         {
@@ -29,42 +34,48 @@ const RegisterPage = () => {
         }
     }
     const registerFormSubmit = async () => {
-       var response = await signUp(newUser);
-        if(response.isSuccess) {
+        authStore.signUp(newUser);
+        if(authStore.isSuccess) {
             history.push("/");
         }
         else {
-            setErrorMessage(response.message);
+            setErrorMessage(authStore.message);
         }
 
     }
     return (
-    <>
-    <div>
-        <label>Your Name</label>
-        <input type="text" name="name" onChange = {inputChangeHandler}/>
-    </div>
-    <div>
-        <label>Your Email</label>
-        <input type="text" name="email" onChange = {inputChangeHandler}/>
-    </div>
-    <div>
-        <label>Your Username</label>
-        <input type="text" name="username" onChange = {inputChangeHandler}/>
-    </div>
-    <div>
-        <label>Your Password</label>
-        <input type="password" name="password" onChange = {inputChangeHandler}/>
-    </div>
-    <div>
-        <label>Confirm Your Password</label>
-        <input type="password" name="confirmPassword" onChange = {repeatedPasswordHandler}/>
-    </div>
-    <p>{errorMessage}</p>
-    <div>
-        <button onClick = {registerFormSubmit} disabled = {isFormInvalid}>Register</button>
-    </div>
-    </>
+    <Container fluid>
+        <Row>
+            <Col md={7} className = {registerStyle.mainBanner}></Col>
+            <Col md={5}>
+                <div className = {registerStyle.mainWrapperTitle}>
+                    <h4 className = {registerStyle.mainTitle}>Create Your Marvello Account</h4>
+                </div>
+                <div className = {registerStyle.formWrapper}>
+                    <div className = {registerStyle.inputForm}>
+                        <input type="text" name="name" onChange = {inputChangeHandler} placeholder = "name"/>
+                    </div>
+                    <div className = {registerStyle.inputForm}>
+                        <input type="text" name="email" onChange = {inputChangeHandler} placeholder = "email"/>
+                    </div>
+                    <div className = {registerStyle.inputForm}>
+                        <input type="text" name="username" onChange = {inputChangeHandler} placeholder = "username"/>
+                    </div>
+                    <div className = {registerStyle.inputForm}>
+                        <input type="password" name="password" onChange = {inputChangeHandler} placeholder = "password"/>
+                    </div>
+                    <div className = {registerStyle.inputForm}>
+                        <input type="password" name="confirmPassword" onChange = {repeatedPasswordHandler} placeholder = "confirm password"/>
+                    </div>
+                    <p>{errorMessage}</p>
+                    <div className = {registerStyle.btnWrapper}>
+                        <button onClick = {registerFormSubmit} disabled = {isFormInvalid}>Register</button>
+                    </div>
+                </div>
+                
+            </Col>
+    </Row>
+    </Container>
     )
 }
 
