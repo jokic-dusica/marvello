@@ -7,6 +7,7 @@ class AuthStore {
     @observable currentUser = null;
     @observable isSuccess = false;
     @observable message = "";
+    @observable createdUser = null;
 
     // constructor(){
     //     this.token = "";
@@ -30,8 +31,13 @@ class AuthStore {
     @action.bound
     async signUp(entity) {
         let response = await apiCall("/api/auth/register", "post", entity);
-        if(response.isSuccess) {
+        if(response.isSuccess ==  true) {
             this.isSuccess = true;
+            this.createdUser = response.data.createdUser
+        }
+        else {
+            this.isSuccess = false;
+            this.message = response.message
         }
     }
 }

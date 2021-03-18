@@ -12,5 +12,6 @@ namespace Marvello.Service.DTOs
         public bool IsAdmin { get; set; }
         [JsonIgnore]
         public string RefreshToken { get; set; }
+        public UserDTO CreatedUser { get; set; }
     }
 }

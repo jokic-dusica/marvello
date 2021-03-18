@@ -122,13 +122,16 @@ namespace Marvello.Service.Services
             userEntity.CreatedOn = DateTime.UtcNow;
             userEntity.UserType = (int)UserTypeEnum.Regular;
             await _userRepostiory.Save(userEntity);
+            var userDTO = _mapper.Map<UserDTO>(userEntity);
             var isAdminCheck = userEntity.UserType == (int)UserTypeEnum.Administrator ? true : false;
          
             var token = CommonHelper.CreateJWTToken(userEntity, _configuration);
             var successLogin = new AuthDTO
             {
                 Token = token,
-                IsAdmin = isAdminCheck
+                IsAdmin = isAdminCheck,
+                CreatedUser = userDTO
+
             };
             return new ResponseWrapper<AuthDTO>()
             {

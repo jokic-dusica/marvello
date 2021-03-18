@@ -5,6 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import registerStyle from '../register/register.module.css';
 import AuthStore from '../../store/auth/authStore';
 import UserStore from '../../store/user/userStore';
+import {observer} from 'mobx-react';
 
 const RegisterPage = () => {
     const authStore = new AuthStore();
@@ -36,12 +37,12 @@ const RegisterPage = () => {
     const registerFormSubmit = async () => {
         authStore.signUp(newUser);
         if(authStore.isSuccess) {
-            history.push("/");
+            userStore.addUserToList(authStore.createdUser);
+            history.push("/login");
         }
         else {
             setErrorMessage(authStore.message);
         }
-
     }
     return (
     <Container fluid>
@@ -79,4 +80,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage;
+export default observer(RegisterPage);
