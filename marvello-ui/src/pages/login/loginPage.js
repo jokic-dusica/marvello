@@ -1,18 +1,21 @@
-import React,{useContext, useState} from 'react';
+import React,{useContext, useEffect, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
 import {useHistory,Redirect,Link} from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import loginModule from '../login/login.module.css';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 import {StoreContext} from '../../store/storeProvider';
 import AuthStore from '../../store/auth/authStore';
 import Loader from '../../components/loader/loader';
 import CommonStore from '../../store/common/commonStore';
+import useStores from '../../hooks/useStores';
 
 
-const LoginPage = (props) => {
+const LoginPage = () => {
     let history = useHistory();
-    const auth = new AuthStore();
+    const authStore = new AuthStore();
+    // const {signIn, isSuccess, message} = useAuth();
+    // const {authStore:{signIn, isSuccess, message}} = useStores();
     const commonStore = new CommonStore();
     const[loginData, setLoginData] = useState(
     {
@@ -24,12 +27,13 @@ const LoginPage = (props) => {
         setLoginData({...loginData,[e.target.name]:e.target.value})
    }
 
+  
    const signInSubmit = async () => {
         commonStore.changeApiState(true);
-        await auth.signIn(loginData);
+        await authStore.signIn(loginData);
         commonStore.changeApiState(false);
-        setErrorMessage(auth.message);
-        if(auth.isSuccess){
+        setErrorMessage(authStore.message);
+        if(authStore.isSuccess){
            history.push('/dashboard');
         }      
    }
@@ -61,7 +65,7 @@ const LoginPage = (props) => {
                             <button onClick = {signInSubmit}>Sign in</button>
                         </div>
                     </div>
-                    {auth.message}                  
+                    {authStore.message}                  
                 </Col>
             </Row>          
         </Container>
@@ -70,4 +74,4 @@ const LoginPage = (props) => {
 
 }
 
-export default observer(LoginPage);
+export default LoginPage;

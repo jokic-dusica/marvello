@@ -36,7 +36,6 @@ export const apiCall =  async (url, method, data = null) => {
         var response = await axios({
             url: url,
             method: method,
-            params: data,
             data: data
         })
     return {

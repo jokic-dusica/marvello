@@ -7,7 +7,7 @@ export const StoreContext = createContext();
 export const StoreProvider = (props) => {
     const auth = new AuthStore();
     return (
-        <StoreContext.Provider value = {useLocalObservable(() =>(
+        <StoreContext.Provider value = {useLocalStore(() =>(
         {
             auth
         }

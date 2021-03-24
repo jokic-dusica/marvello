@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import AuthStore from './store/auth/authStore';
+import CommonStore from './store/common/commonStore';
+import { Provider } from 'mobx-react';
+const stores = {
+  authStore: new AuthStore(),
+  commonStore: new CommonStore()
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider stores = {stores}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
