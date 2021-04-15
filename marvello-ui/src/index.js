@@ -5,17 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthStore from './store/auth/authStore';
 import CommonStore from './store/common/commonStore';
-import { Provider } from 'mobx-react';
-const stores = {
-  authStore: new AuthStore(),
-  commonStore: new CommonStore()
-}
+import { Provider,Observer } from 'mobx-react';
+import AuthStoreTest from './store/auth/authStoreTest';
+
+const authStore = new AuthStore();
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider stores = {stores}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+
+    <Provider>
+      <App  authStore = {authStore}/>
+    </Provider>,
+
   document.getElementById('root')
 );
 

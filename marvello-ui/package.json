@@ -14,6 +14,7 @@
     "bootstrap": "^4.6.0",
     "http-proxy-middleware": "^1.0.6",
     "mobx": "^6.1.8",
+    "mobx-devtools-mst": "^0.9.30",
     "mobx-react": "^7.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.1",

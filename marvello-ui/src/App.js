@@ -10,34 +10,29 @@ import { StoreProvider } from './store/storeProvider';
 import AuthStore from '../src/store/auth/authStore'; 
 import Loader from './components/loader/loader';
 import CommonStore from './store/common/commonStore';
-import { observer, inject } from 'mobx-react';
+import { observer, inject, Observer } from 'mobx-react';
 import React,{useEffect, useState} from 'react';
+import NavBar from './components/navbar/navbar';
+import AddProject from './components/addproject/addProject';
+import PrivateRoutes from './components/routes/privateRoutes';
+import PublicRoutes from './components/routes/publicRoutes';
+import Layout from './components/layout/layout';
 
 
-const App = ()  => {
-  const commonStore = new CommonStore();
-  const authStore = new AuthStore();
-  const[loader, setLoader] = useState(false);
-  useEffect(() => {
-    setLoader(commonStore.isApiSent);
-  },[commonStore.isApiSent])
+
+const App = ({authStore})  => {
   return (  
-      <Router>
-        <div className="App">
-        {(loader == true) &&
-          <Loader/>  
-        }
-          <Switch>         
-              <Route exact path = "/dashboard" component = {Dashboard}/>
-             
-                <Route exact path = "/">
-                  {authStore.isLogged == true ? <Redirect to ="/dashboard"/> : <LoginPage/>}
-                </Route>              
-              
-              <Route exact path = "/register" component = {RegisterPage}/>                
-          </Switch>         
-        </div>
-      </Router>      
+    <div>
+      
+        <Router>
+          <div className="App">
+            <Switch>  
+
+                  <Layout authStore ={authStore}/>          
+            </Switch>         
+          </div>
+        </Router>  
+      </div>    
    
   );
 }

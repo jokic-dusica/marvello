@@ -3,6 +3,7 @@ import NavBar from '../../components/navbar/navbar';
 import useProjectType from '../../hooks/useProjectType';
 import AddProject from '../../components/addproject/addProject';
 import { Col, Container, Row } from 'react-bootstrap';
+import {Route} from "react-router-dom";
 const Dashboard = () => {
     const[projectTypes, setProjectTypes] = useState();
     const {getProjectTypes,getOneProjectType} = useProjectType();
@@ -10,9 +11,11 @@ const Dashboard = () => {
     <Container fluid>
         <Row>
            <Col md={2}>
-           <NavBar/>
+          
            </Col>
-           <Col md={9}><AddProject/></Col>           
+           <Col md={9}>
+  
+            </Col>           
         </Row>
     </Container>
  

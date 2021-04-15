@@ -9,11 +9,12 @@ import AuthStore from '../../store/auth/authStore';
 import Loader from '../../components/loader/loader';
 import CommonStore from '../../store/common/commonStore';
 import useStores from '../../hooks/useStores';
+import AuthStoreTest from '../../store/auth/authStoreTest';
 
 
-const LoginPage = () => {
+const LoginPage = ({authStore}) => {
     let history = useHistory();
-    const authStore = new AuthStore();
+    // const authStore = new AuthStoreTest();
     // const {signIn, isSuccess, message} = useAuth();
     // const {authStore:{signIn, isSuccess, message}} = useStores();
     const commonStore = new CommonStore();
