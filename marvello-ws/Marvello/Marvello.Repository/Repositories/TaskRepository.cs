@@ -12,5 +12,11 @@ namespace Marvello.Repository.Repositories
         {
 
         }
+
+        public async System.Threading.Tasks.Task<List<Task>> GetTaskByProject(long id)
+        {
+            var response = await GetWhere(task => task.ProjectId == id);
+            return (List<Task>)response;
+        }
     }
 }

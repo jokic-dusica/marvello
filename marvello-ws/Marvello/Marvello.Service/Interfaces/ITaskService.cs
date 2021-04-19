@@ -11,6 +11,7 @@ namespace Marvello.Service.Interfaces
     {
         Task <ResponseWrapper<List<TaskDTO>>> GetAll();
         Task <ResponseWrapper<TaskDTO>> GetOne(long id);
+        Task<ResponseWrapper<List<TaskDTO>>> GetTaskByProject(long id);
         Task <ResponseWrapper<TaskDTO>> Save(TaskDTO entity);
         Task <ResponseWrapper<TaskDTO>> Update(TaskDTO entity);
         System.Threading.Tasks.Task <ResponseWrapper<TaskDTO>> Delete(TaskDTO entity);

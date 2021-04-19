@@ -42,6 +42,20 @@ namespace Marvello.WebApi.Controllers
             return Ok(response);
         }
 
+        [HttpGet("/project/{id}")]
+        public async Task<IActionResult> GetTaskByProject(long id)
+        {
+            var response = await _taskService.GetTaskByProject(id);
+            if (response.ResponseData == null && string.IsNullOrEmpty(response.ErrorMessage))
+            {
+                return NotFound(new ResponseWrapper<TaskDTO>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.NotFoundError)
+                });
+            }
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveTask([FromBody] TaskDTO entity)
         {

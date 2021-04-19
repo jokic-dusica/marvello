@@ -70,6 +70,31 @@ namespace Marvello.Service.Services
             
         }
 
+        public async Task<ResponseWrapper<List<TaskDTO>>> GetTaskByProject(long id)
+        {
+            try
+            {
+                var taskByProject = await _taskRepository.GetTaskByProject(id);
+                var taskByProjectDTO = _mapper.Map<List<TaskDTO>>(taskByProject);
+                var response = new ResponseWrapper<List<TaskDTO>>()
+                {
+                    ResponseData = taskByProjectDTO,
+                    IsSuccess = true
+                };
+                return response;
+
+            }
+            catch
+            {
+                var response = new ResponseWrapper<List<TaskDTO>>()
+                {
+                    ErrorMessage = CommonHelper.GetDescription(ExceptionEnum.ServerError),
+                    IsSuccess = false
+                };
+                return response;
+            }
+        }
+
         public async Task <ResponseWrapper<TaskDTO>> Save(TaskDTO entity)
         {
             try

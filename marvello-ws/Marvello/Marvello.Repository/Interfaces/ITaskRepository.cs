@@ -7,5 +7,6 @@ namespace Marvello.Repository.Interfaces
 {
     public interface ITaskRepository : IRepository<Task>
     {
+        public System.Threading.Tasks.Task<List<Task>> GetTaskByProject(long id);
     }
 }
